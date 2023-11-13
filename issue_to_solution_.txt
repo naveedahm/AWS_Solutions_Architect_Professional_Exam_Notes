@@ -1,0 +1,75 @@
+
+Test 2
+--------
+
+Three AWS accounts each with its own VPC
+Requirement for communication between AWS resources across the accounts, VPC peering needs to be configured - 
+
+VPC A: 172.16.0.0/16
+Subnet A : 172.16.0.0/24
+
+VPC B: 10.0.0.0/16
+Subnet B: 10.0.0.0/24
+
+VPC C: 10.0.0.0/16
+Subnet C: 10.0.0.0/24
+
+VPC B and VPC C have matching CIDR blocks
+VPC A needs to communicate only with database instance in VPC-B with an IP address of 10.0.0.77/32 while being able to communicate with all the resources in VPC-C
+
+Solution Architect created the necessary VPC peering links but VPC-A cannot effectively communicate with VPC-B
+Routes on each VPC still need proper configuration
+
+Which of following solutions will allow VPC-A to communicate with the database instance in VPC-B, while being able to communicate with all resources in VPC-C
+
+-----
+
+On VPC-A, add a static route for VPC-B CIDR (10.0.0.77/32) with the target pcx-aaabbb, and another static route for VPC-C CIDR (10.0.0.0/16) with the target pcx-aaaccc.
+
+On VPC-B, add a static route for VPC-A CIDR (172.16.0.0/24) with the target pcx-aaabbbb
+
+On VPC-C, add a static route for VPC-A CIDR (172.16.0.0/24) with the target pcx-aaaccc
+
+=========
+
+
+Global enterprise has a private s3 bucket, MANILATECH-CONFIG
+It has server side encryption with amazon s3 managed encryption keys
+Currently there are four files in the bucket, namely, 
+	MNL-NA.config
+	MNL-LA.config
+	MNL-EUR.config
+	MNL-ASIA.config
+You enabled versioning, and after a few days, the new 
+	MNL-O.config
+file for Ocenia region has been uploaded
+After a week, a configuration has been done on 
+	MNL-NA.config
+	MNL-LA.config
+	MNL-O.config
+
+What is correct about the files inside the MANILATECH-CONFIG s3 bucket ?
+
+------------
+
+There would be two versions for each of the MNL-NA.config, MNL-LA.config, and MNL-O.config files
+The first version id of MNL-NA.config and MNL-LA.config has a value of NULL.
+
+The MNL-EUR.config and MNL-ASIA.config files have a version id of null
+
+
+========
+
+What does this snippet in cloud formation do ?
+
+"SNSTopic" : {
+"Type" : "AWS::SNS::Topic",
+"Properties" : {
+"Subscription" : [{
+"Protocol" : "sqs",
+"Endpoint" : { "Fn::GetAtt" : [ "TutorialsDojoQueue", "Arn" ] }
+}]
+}
+
+- Creates an SNS topic and then adds a subscription using the ARN attribute name for the SQS queue, which is created under the logical name TutorialsDojoQueue
+

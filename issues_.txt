@@ -1,0 +1,71 @@
+
+
+Webserver metrics are within range, but database CPU is very high, causing EC2 health checks to timeout
+Failing health checks, AutoScaling group continuously replaced unhealthy instances, thus causing down time
+
+-------
+
+Reduce the load on the database tier by creating an Amazon ElastiCache cluster to cache frequently requested database queries
+Configure the application to use this cache when querying the RDS MySQL instance
+
+Change the target group health check to simple HTML page, instead of a page that queries the database
+Create an Amazon Route53 health check for the database dummy item web page to ensure that application works as expected
+Setup an Amazon CloudWatch alarm to send a notification to Admins when the health check fails
+
+=======
+
+Disaster recovery system in which RTO must be less than 3 hours and RPO is 15 minutes
+
+-----
+
+
+
+=====
+
+Solutions Architect control access to certain services using SCPs that define restricted services
+SCPs are attached at root of organization so that they will be applied to all AWS accounts under the organization
+Existing AWS account of an acquired company was invited to join organization
+Administrators of small firm cannot apply the required AWS Config rules to meet parent company's security policies
+
+-----
+
+Remove the SCP to the Organization's root and apply them to product OU instead
+Create temporary Onboarding OU that has attached SCPs, allowing changes to AWS config
+Add the new account to this temporary OU and make the required changes before moving it to production OU
+
+======
+
+Serverless Forex trading application, 
+Receiving complaints that it takes a few minutes for their users to log in to their portal lately
+
+----
+
+Use Lambda@Edge to allow Lambda functions to customize content that CloudFront delivers
+Execute the authentication process in AWS locations closer to the user
+
+Setup origin failover, by creating an origin group with two origins
+Specify one as primary origin and other as second origin which CloudFront automatically switches to when primary origin returns HTTP failure responses
+
+=======
+
+IoT enabled devices sold to customers around globe
+Every 5 minutes, each IoT device sends back a data file that includes the device status and other information to an s3 bucket
+Loads the values on a designated Amazon RDS database
+
+Cron job takes about 10 minutes to process day's worth of data
+After processing of each file, it is deleted from s3 bucket
+
+Expedite process
+
+-------
+
+Convert python script cron job to an AWS Lambda Function
+Configure Amazon S3 bucket event notifications to trigger the Lambda function whenever an object is uploaded to the bucket
+
+=========
+
+Credit 
+
+
+
+

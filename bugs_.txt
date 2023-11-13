@@ -1,0 +1,366 @@
+
+Dedicated storage for database credentials, with life-cycle management and key rotation.
+
+----
+
+If you want a single store for configuration and secrets, you can use parameters store. If you want a dedicated secrets store with life-cycle management, use secrets manager.
+
+=======
+
+SQL injection to be prevented before API Gateway
+
+---
+
+Use WAF to add a web access control list in front of the API gateway
+
+======
+
+Fault tolerant application to problems in any region
+
+------
+
+Create a geolocation routing policy on Amazon Route53 to point the global users to their designated regions.
+
+Deploy the application tier on the Auto-Scaling group of EC2 instances for each Region in an active-active configuration
+
+=======
+
+Database endpoint is not accessible
+
+-----
+
+On Account A, create an authorization to associate its private hosted zone to the new VPC in Account B
+
+On Account B, associate the VPC to the private hosted zone in Account A. Delete the association authoriztion after the association is created.
+
+=======
+
+Second site required for disaster recovery
+
+-----
+
+Create the same resources of Auto Scaling group of EC2 instances for web and application tiers for both regions. For the database tier create a DynamoDB global table spanning both regions.
+
+=====
+
+Handle load of 300,000 peak users
+
+---
+
+Launch CloudFormation stack that contains an AutoScaling group of Amazon EC2 instances spanning multiple avaialability zones that are behind an Application Load Balancer. 
+Use the stack to launch an Amazon Aurora MySQL database cluster
+Create a Route53 zone entry for the company's domain name with an alias-record pointed to the ALB
+
+======
+
+Cannout pull container error
+
+---
+
+Update Fargate task definition and set the auto-assign Public IP option to Disabled. Launch NAT Gateway on public subnet of VPC and update the route table of private subnet to route requests to internet
+
+======
+
+Unhealthy instances are terminated before user could login for investigation
+
+---
+
+Go to Auto scaling section of AWS console and suspend the "terminate" process for the ASG. use AWS system manager session manager to login to unhealthy instances.
+
+=====
+
+
+Database CPU usage is very high
+
+----
+
+Reduce the load on the database tier by creating an Amazon ElastiCache cluster.
+
+Create Amazon Route53 health check for the database dummy item web page to ensure that application works as expected
+
+======
+
+ReactJS app to Provide access to web app to Amazon DynamoDb tables, would run on phones and tablets
+
+---
+
+Serve your webapp out of s3 bucket enabled as a website
+
+Create an IAM role for that web provider and set up permissions for the IAM role to allow GET and PUT operations in Amazon s3 and DynamoDb
+
+======
+
+200 EC2 instances, each has a logging feature, that collects various system details
+
+System logs would be analyzed using AWS analytics tools and result stored in s3 bucket
+
+------
+
+Setup and configure, unified cloud watch logs agent on each on-demand EC2 instance
+
+======
+
+Apply patches to Ec2 instances in production environment
+
+------
+
+Create a patch baseline in AWS Systems Manager Patch Manager for each environment.
+
+Categorize EC2 instances based on their tags using Patch Groups
+
+======
+
+
+Encrypt database credentials in rest and in tranits
+
+-----
+
+Upload database credentials with a Secure String data type in AWS Systems Manager Parameter store
+
+Create an IAM service role that will be associated with the on-premises servers
+
+Deploy the application packages to EC2 instances and on-premises servers using AWS Code Deploy
+
+====
+
+
+Sharing specified AWS resources, with other AWS accounts of the company using AWS RAM
+
+---
+
+Use trusted access by running the enable-sharing-with-aws-organization command in the AWS CLI
+
+
+=====
+
+Aggregate logs, automate log analysis for errors and immediately notify the IT operations team when errors breached a certain threshold
+
+----
+
+Deploy and install Amazon CloudWatch agent in the on-premises servers and send to logs to Amazon CloudWatch logs.
+
+======
+
+Encrypt traffic that flows from employee's laptops to resources inside the VPC
+
+---
+
+Create a new public virtual interface, using the current Direct Connect Connection
+
+======
+
+Handle more incoming traffic
+
+Set of security rules that block common attack patterns such as SQL injection and cross-site scripting should also be implemented
+
+-----
+
+Use CloudFront to cache and distribute high resolution images. Deploy AWS WAF on Amazon CloudFront distribution
+
+=====
+
+SCPs are attached to root of organization
+
+Administrators of small business firm cannot apply the required AWS config rules to meet parent company's security policies
+
+----
+
+Remove the SCP on the organization's root and apply them to production OU 
+
+=====
+
+A suspsected breach in one of the environments, third-party AWS account was suddenly added to the AWS organization without any prior approval
+
+-----
+
+Create cloud trail to capture all API calls to AWS Organizations
+
+Use AWS Config to monitor the compliance of your AWS Organizations
+
+
+======
+
+Reduce the time to login to an application 
+
+----
+
+Use Lambda@Edge to allow your lambda functions to customize content that cloudfront delivers
+
+Setup an origin failover, by creating an origin group with two origins. Specify one as primary origin, and other as second origin.
+
+=======
+
+Make an application, where the public DNS is managed internally, available through an apex domain
+
+----
+
+Setup an AWS Global Accelrator, which has several endpoint groups that targets specific endpoints and ALBs on required AWS region.
+
+======
+
+Process 50 TB digital videos and media files for facial recognition. Media asset managment (MAM)
+
+-----
+
+Integrate the filesystem of your local data center to AWS storage Gateway by setting up file gateway appliance on-premises
+
+=====
+
+Ruby on Rails application, with a database of size 16 TiB
+
+Re-architect application and infrastructure, to make it highly avaialable, to run the application reliably
+
+----
+
+Migrate the database to MySQL Aurora
+
+Create a read-replica on another Availability Zone of the Aurora instance for high availability
+
+======
+
+Launch a central database server accessible to other VPC of company
+
+This server should only be accessible within the associated VPC since only internal applications would be using database
+
+-----
+
+Setup private hosted zone with a domain name, and specify the VPCs that you want to associate with hosted zone
+
+Modify the enableDnsHostNames attribute of your VPC to true and the enableDnsSupport attribute to true
+
+
+====
+
+Webservers operate at 95% load. Reserved instances to handle steady-state load and on-demand instances to handle the peak load
+
+-----
+
+Launch a spot-fleet using diversified alloation strategy, with auto-scaling enabled on each AZ to handle peak load
+
+====
+
+Inter-region VPC access required over a private network that is dedicated to each region for enhanced security
+
+---
+
+Use AWS Direct Connect Gateway for inter-region VPC access
+
+=====
+
+60 TB of data to be migrated from on-premises Oracle to RedShift
+
+----
+
+Create an AWs snowball import job to request for a snow ball edge device
+
+======
+
+Requirement to copy information to and from shared resources from another AWS account
+
+----
+
+Setup cross-account access with resource based policy
+
+======
+
+A load balancer to be used to evenly distribute incoming traffic to the application servers
+
+Route53 must be used for both domain registeration and domain management
+
+-------
+
+1. Launch two NGINX EC2 instances in two availability zones
+
+=====
+
+Company used LDAP for employee authentication and authorization
+
+Mobile application must use a custom-built solution for user authentication
+
+It must also use IAM roles for granting user permissions to AWS resources
+
+-----
+
+Built a custom OpenID connect-compatible solution for user authentication functionality
+
+Build a custom SAML-compatible solution to handle authentication and authorization
+
+
+======
+
+Security of SSL Private Key
+
+----
+
+Use CloudHSM deployed to two availability zones
+
+======
+
+For e-commerce website prevent common man-in-middle attacks
+
+-----
+
+Enable DNSSEC validation for all public hosted zones
+
+=======
+
+Management teams need to connect to a central repository application
+
+-----
+
+Link each of the team VPC to the central VPC using VPC peering
+
+=====
+
+Security team found several IAM access keys and secret keys in CodeCommit repository
+
+----
+
+Write a custom lambda function to search for credentials
+
+=====
+
+Virtual machine images from the on-premises data center must be imported to AWS
+
+------
+
+Create a job in AWS Application Migration Service (MGN) to migrate the virtual mahcines to AWS
+
+======
+
+Lambda execution time averages 4.5 minutes
+
+----
+
+Migrate the on-premises MySQL database server to Amazon RDS for MySQL
+Configure Auto-Scaling on Amazon DynamoDB to automatically adjust the capacity based on user traffic
+
+======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
